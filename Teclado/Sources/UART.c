@@ -1,0 +1,28 @@
+/*
+ * UART.c
+ *
+ *  Created on: Mar 12, 2014
+ *      Author: ANTONIO
+ */
+
+#include "derivative.h"
+#include "UART.h"
+
+
+void vfnUART_Config(void)
+{
+	SIM_SOPT2 = SIM_SOPT2_UART0SRC(1);
+	SIM_SCGC4 = SIM_SCGC4_UART0_MASK;
+	SIM_SCGC5 = SIM_SCGC5_PORTA_MASK | SIM_SCGC5_PORTD_MASK;
+	
+	UART0_BDL = UART0_BDL_SBR(110); /*configure baud rate to 10k*/
+	UART0_C1 = UART0_C1_PE_MASK | UART0_C1_PT_MASK;
+	UART0_C2 = UART0_C2_RE_MASK | UART0_C2_RIE_MASK;
+	
+	NVIC_ISER = 1<<12;
+	
+	PORTA_PCR1= PORT_PCR_MUX(2) | PORT_PCR_PE_MASK; 
+	PORTA_PCR2= PORT_PCR_MUX(2) | PORT_PCR_PE_MASK;
+}
+
+
